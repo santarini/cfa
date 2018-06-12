@@ -41,4 +41,4 @@ with open("guide.csv") as csvfile:
 #END LOOP
 
 documentAnswerKey.save('AnswerKey.docx')
-documentBlankQuiz.save('FomrulaQuiz.docx')
+documentBlankQuiz.save('FormulaQuiz.docx')
