@@ -1,12 +1,44 @@
+import csv
+import os
 from docx import Document
 from docx.shared import Inches
 
-document = Document()
+#create AnswerKey document
+documentAnswerKey = Document()
 
-p = document.add_paragraph()
-r = p.add_run()
-r.add_text('Good Morning every body,This is my ')
-r.add_picture(r'C:\Users\m4k04\Desktop\workspace\imageDOc\1.png')
-r.add_text(' do you like it?')
+#create BlankQuiz document
+documentBlankQuiz = Document()
 
-document.save('demo.docx')
+#add a AnswerKey title
+documentAnswerKey.add_heading('CFA Formula Quiz Answer Key', 0)
+
+#add a BlankQuiz title
+documentBlankQuiz.add_heading('CFA Formula Quiz', 0)
+
+#BEGIN LOOP
+#open CSV
+with open("guide.csv") as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        #find row marked Count
+        NumberRef = (row['NumberRef'])
+        
+        #find row marked FormulaName
+        FormulaName = (row['FormulaName'])
+        
+        #print question onto AnswerKey
+        documentAnswerKey.add_paragraph(str(NumberRef) + ") " + FormulaName)
+
+        #print question onto BlankQuiz
+        documentBlankQuiz.add_paragraph(str(NumberRef) + ") " + FormulaName)
+
+        #create an empty space on Blank Quiz
+        documentBlankQuiz.add_paragraph()
+        
+        #add the image (aka. Answer) to AnswerKey
+        documentAnswerKey.add_picture(r'C:\Users\m4k04\Desktop\workspace\imageDOc\formulaImages\/{}.png'.format(NumberRef), width=Inches(1.25))
+    #next
+#END LOOP
+
+documentAnswerKey.save('AnswerKey.docx')
+documentBlankQuiz.save('FomrulaQuiz.docx')
